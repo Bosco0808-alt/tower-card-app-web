@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import bootstrap CSS
 import "./globals.css";
 
 export const metadata: Metadata = {
