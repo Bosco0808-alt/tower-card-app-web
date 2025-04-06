@@ -2,13 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { createUser } from "../actions"; // Import the server action
+import { User } from "firebase/auth";
 
-export default function SignUpClient() {
+export default function SignUpClient({
+  createUserAction,
+}: {
+  createUserAction: (email: string, password: string) => Promise<string>;
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [, startTransition] = useTransition();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,18 +32,13 @@ export default function SignUpClient() {
       return;
     }
 
-    try {
-      const user = await createUser(email, password); // Call the server action
-      if (!user) {
-        alert("There was an error creating the user, please try again later.");
-      } else {
-        alert("Signed up successfully!");
-        router.push("/game");
-      }
-    } catch (err) {
+    const actionOut = await createUserAction(email, password); // Call the server action
+    const user = JSON.parse(actionOut);
+    if (JSON.stringify(user) === "{}") {
+      alert("There was an error creating the user, please try again later.");
+    } else {
       alert("Signed up successfully!");
       router.push("/game");
-      // TODO: fix this dumb error
     }
   };
 

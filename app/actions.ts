@@ -10,9 +10,9 @@ export async function createUser(email: string, password: string) {
       email,
       password
     );
-    return userCredential.user;
+    return JSON.stringify(userCredential.user);
   } catch (error: any) {
     console.error("Error creating user:", error.code, error.message);
-    return undefined;
+    return "{}";
   }
 }

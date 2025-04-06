@@ -1,5 +1,6 @@
 import SignUpClient from "./SignupClientComponent";
+import { createUser } from "../actions";
 
 export default function SignUp() {
-  return <SignUpClient />;
+  return <SignUpClient createUserAction={createUser} />;
 }
