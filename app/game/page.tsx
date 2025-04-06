@@ -1,3 +1,3 @@
 export default function Game() {
-  return <></>;
+  return <>Placeholder Text</>;
 }
