@@ -16,7 +16,7 @@ const Navbar = () => {
         </li>
         <li className="nav-item active m-2">
           <Link className="nav-link" href="/login">
-            Login
+            Log In
           </Link>
         </li>
       </ul>

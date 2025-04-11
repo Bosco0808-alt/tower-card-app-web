@@ -49,11 +49,10 @@ export default function SignUp() {
 
     const actionOut = await createUser(email, password); // Call the server action
     const user = JSON.parse(actionOut);
-    if (JSON.stringify(user) === "{}") {
-      // 👆 check if there is an error
+    if (user.error) {
       Swal.fire({
         title: "Error!",
-        html: "<p>There was an error creating the user, please try again later.</p><p>Hint: have you already created a user under this email?</p>",
+        text: user.error,
         icon: "error",
         confirmButtonText: "Ok",
         timer: 6000,
