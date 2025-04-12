@@ -1,7 +1,19 @@
+"use client";
+
 import Link from "next/link";
+import { useAuth } from "@/contexts/authContext";
 import styles from "./page.module.css";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { userLoggedIn } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (userLoggedIn) {
+      router.push("/game");
+    }
+  }, []);
   return (
     <>
       <h1 className="m-2">Tower Defence Card Game</h1>

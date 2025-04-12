@@ -1,14 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { logIn } from "../actions";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/authContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function Login() {
+  const { userLoggedIn } = useAuth();
   const [email, setEmail] = useState("");
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  useEffect(() => {
+    if (userLoggedIn) {
+      router.push("/game");
+    }
+  }, [isSigningIn]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
@@ -44,26 +53,20 @@ export default function Login() {
       });
       return;
     }
-
-    const actionOut = await logIn(email, password);
-    const user = JSON.parse(actionOut);
-    if (user.error) {
-      Swal.fire({
-        title: "Error!",
-        text: user.error,
-        icon: "error",
-        confirmButtonText: "Ok",
-        timer: 6000,
-      });
-    } else {
-      Swal.fire({
-        title: "Success!",
-        text: "Logged in successfully!",
-        icon: "success",
-        confirmButtonText: "Ok",
-        timer: 3000,
-      });
-      router.push("/game");
+    if (!isSigningIn) {
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        setIsSigningIn(true);
+      } catch (err: any) {
+        console.log("Error: " + err.code + err.message);
+        Swal.fire({
+          title: "Error!",
+          text: "Error: " + err.code + err.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+          timer: 6000,
+        });
+      }
     }
   };
   return (

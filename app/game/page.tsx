@@ -1,3 +1,12 @@
+"use client";
+
+import { useAuth } from "@/contexts/authContext";
+
 export default function Game() {
-  return <>Placeholder Text</>;
+  const { currentUser } = useAuth();
+  return (
+    <span className="h2 m-2">
+      {currentUser?.displayName ? currentUser?.displayName : currentUser?.email}
+    </span>
+  );
 }
