@@ -1,5 +1,9 @@
 "use client";
 
 export default function Loading() {
-  return <h1>Loading...</h1>;
+  return (
+    <div className="spinner-border" role="status">
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
 }
