@@ -2,6 +2,9 @@
 
 import { useAuth } from "@/contexts/authContext";
 import Link from "next/link";
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../firebase";
 
 export default function Game() {
   const { currentUser } = useAuth();
@@ -15,13 +18,30 @@ export default function Game() {
           : "Hello guest"}
       </span>
       <br />
-      <Link href="#" className="btn btn-primary m-2">
+      {currentUser?.email ? (
+        ""
+      ) : (
+        <>
+          <Link href="/signup" className="btn btn-primary m-2">
+            Sign Up
+          </Link>
+          <br />
+          <Link href="/login" className="btn btn-secondary m-2">
+            Log In
+          </Link>
+          <br />
+        </>
+      )}
+      <Link href="/game/1?type=0" className="btn btn-danger m-2">
         Start PvP game
       </Link>
       <br />
-      <Link href="#" className="btn btn-secondary m-2">
+      <Link href="/game/1?type=1" className="btn btn-dark m-2">
         Start PvE game
       </Link>
+      {/* The below is used for testing only */}
+      <br />
+      <span>{currentUser?.uid}</span>
     </>
   );
 }
