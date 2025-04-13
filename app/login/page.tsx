@@ -1,10 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../firebase";
 
 export default function Login() {
@@ -70,25 +74,30 @@ export default function Login() {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="m-2">Log In</h2>
-      <label className="m-2">Email address</label>
-      <input
-        className="form-control m-2"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      ></input>
-      <br />
-      <label className="m-2">Password</label>
-      <input
-        className="form-control m-2"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        type="password"
-      ></input>
-      <button className="btn btn-primary m-2" type="submit">
-        Log In
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <h2 className="m-2">Log In</h2>
+        <label className="m-2">Email address</label>
+        <input
+          className="form-control m-2"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></input>
+        <br />
+        <label className="m-2">Password</label>
+        <input
+          className="form-control m-2"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+        ></input>
+        <button className="btn btn-primary m-2" type="submit">
+          Log In
+        </button>
+      </form>
+      <Link className="btn btn-link" href="/recoverpassword">
+        Forgot Password?
+      </Link>
+    </>
   );
 }
